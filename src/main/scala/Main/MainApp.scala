@@ -3,9 +3,10 @@ package Main
 import Arithm.ExprParser
 import Arithm.Utils.showExpr
 import GUI.UI
-import Arithm.Plotter.getJFGraphPlotter
-import org.sameersingh.scalaplot.jfreegraph.JFGraphPlotter
-import org.sameersingh.scalaplot.{MemXYSeries, XYChart, XYData}
+import Arithm.Plotter.{getJChart, getJFGraphPlotter}
+import GUI.UI.mainFrame
+
+import javax.swing.JFrame
 
 object MainApp extends App with ExprParser {
   val eq = "2*x+ 2"
@@ -21,6 +22,7 @@ object MainApp extends App with ExprParser {
   //println("Compute point: ", eval_points(0, 1, step, exp))
   //val ui = new UI
   //ui.visible = true
-  getJFGraphPlotter(eq, points).gui()
+  // getJFGraphPlotter(eq, points).gui()
+  mainFrame(getJChart(eq, points))
 }
 
