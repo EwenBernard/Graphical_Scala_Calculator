@@ -1,0 +1,9 @@
+[debug] > Exec(run, None, None)
+[debug] Evaluating tasks: Compile / run
+[debug] Running task... Cancel: Signal, check cycles: false, forcegc: true
+[info] compiling 1 Scala source to C:\Users\ebern\Desktop\Airpods Project\Arith_Project\target\scala-2.12\classes ...
+[info] Non-compiled module 'compiler-bridge_2.12' for Scala 2.12.15. Compiling...
+[info]   Compilation completed in 19.614s.
+[info] done compiling
+[success] Total time: 24 s, completed 20 juin 2022 16:49:14
+[debug] > Exec(idea-shell, None, None)
