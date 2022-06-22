@@ -22,7 +22,7 @@ object MainApp extends App with ExprParser {
   //println("Compute point: ", eval_points(0, 1, step, exp))
   //val ui = new UI
   //ui.visible = true
-  // getJFGraphPlotter(eq, points).gui()
+  //getJFGraphPlotter(eq, points).gui()
   mainFrame(getJChart(eq, points))
 }
 
