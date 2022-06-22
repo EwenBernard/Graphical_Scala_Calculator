@@ -1,5 +1,6 @@
-package ArithmParser
+package Arithm
 
+import scala.collection.JavaConverters
 import scala.collection.mutable.ListBuffer
 import scala.util.matching.Regex
 import scala.util.parsing.combinator.JavaTokenParsers
@@ -26,13 +27,14 @@ trait ExprParser extends JavaTokenParsers {
     case Num(t) => t
   }
 
-  def eval_points(xlim1: Double, xlim2: Double, step: Double, t: Tree): ListBuffer[(Double, Double)] ={
-    var points : ListBuffer[(Double, Double)] = ListBuffer()
+  def eval_points(xlim1: Double, xlim2: Double, step: Double, t: Tree): Tuple2[Seq[Double], Seq[Double]] ={
+    var pointsX : ListBuffer[Double] = ListBuffer()
+    var pointsY : ListBuffer[Double] = ListBuffer()
     for(x <- xlim1 to xlim2 by step){
-      val temp = (x,eval(t, x))
-      points += temp
+      pointsX += x
+      pointsY += eval(t, x)
     }
-    points
+    (pointsX.toSeq, pointsY.toSeq)
   }
 
 

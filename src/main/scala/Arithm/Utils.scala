@@ -1,7 +1,4 @@
-package ArithmParser
-
-import ArithmParser.ExprParser
-
+package Arithm
 
 object Utils extends ExprParser {
   def showExpr(e: Tree): String = e match {

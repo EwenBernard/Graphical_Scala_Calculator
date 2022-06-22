@@ -11,7 +11,13 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="sbt: com.itextpdf.tool:xmlworker:1.1.0:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.itextpdf:itextpdf:5.1.2:jar" level="project" />
+    <orderEntry type="library" name="sbt: jfree:jcommon:1.0.16:jar" level="project" />
+    <orderEntry type="library" name="sbt: jfree:jfreechart:1.0.13:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.sameersingh.scalaplot:scalaplot:0.0.4:jar" level="project" />
     <orderEntry type="library" name="sbt: org.scala-lang.modules:scala-parser-combinators_2.12:2.1.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.scala-lang.modules:scala-swing_2.12:3.0.0:jar" level="project" />
     <orderEntry type="library" name="sbt: org.scala-lang:scala-library:2.12.15:jar" level="project" />
   </component>
 </module>
