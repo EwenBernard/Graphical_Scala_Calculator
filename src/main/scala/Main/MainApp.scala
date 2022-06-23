@@ -9,11 +9,11 @@ import GUI.UI.mainFrame
 import javax.swing.JFrame
 
 object MainApp extends App with ExprParser {
-  val eq = "2*x+ 2"
+  val eq = "1/x"
   val exp = parseAll(expr, eq).get
   val x = 2
   val step = 0.1
-  val points = eval_points(0, 1, step, exp)
+  val points = eval_points(1, 40, step, exp)
   /*
   println("Equation: ", eq)
   println("After Parsing: ", exp)

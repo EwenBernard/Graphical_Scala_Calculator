@@ -1,25 +1,79 @@
 package GUI
 
+import Arithm.Plotter.{getJChart, getJFGraphPlotter}
+import Main.MainApp.{eq, eval_points, exp, expr, parseAll, step}
 import org.jfree.chart.{ChartPanel, JFreeChart => JChart}
 
-import java.awt.GridLayout
+import java.awt.Dimension
+import java.awt.event.{ActionEvent, ActionListener}
 import javax.swing._
 
 object UI{
   def mainFrame(chart: JChart): Unit = {
     val frame = new JFrame("Arithmetic Graphical Calculator")
     val panel = new JPanel()
+    val plotPanel = new JPanel()
+    val buttonPanel = new JPanel()
+    val textPanel = new JPanel()
+
+    var plot = new ChartPanel(chart)
+
+    val textField = new JTextField()
+    textPanel.add(new JLabel("f(x)= "))
+    textPanel.add(textField)
+
+
+    textField.setPreferredSize(new Dimension( 400, 24 ))
+    textField.setMaximumSize(textField.getPreferredSize)
 
     panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS))
-    panel.add(new ChartPanel(chart))
-    panel.add(new JButton("ok"))
+    plotPanel.add(plot)
+    panel.add(plotPanel)
+    panel.add(textPanel)
 
+    val plotBtn = new JButton("Plot Graph")
+    val derivateBtn = new JButton("Derivate")
+    val simplifyBtn = new JButton("Simplify")
 
+    plotBtn.addActionListener(new plotListener())
+    derivateBtn.addActionListener(new derivateListener())
+    simplifyBtn.addActionListener(new simplifyListener())
+
+    buttonPanel.add(plotBtn)
+    buttonPanel.add(derivateBtn)
+    buttonPanel.add(simplifyBtn)
+
+    panel.add(buttonPanel)
     frame.add(panel)
     frame.setSize(640, 420)
-    //frame.add(new ChartPanel(chart))
-    //frame.add(new JButton("Back"))
     frame.pack()
     frame.setVisible(true)
+
+    class plotListener extends ActionListener{
+      override def actionPerformed(e: ActionEvent): Unit = {
+        println("plotListener Button Clicked: ", textField.getText())
+        val exp = parseAll(expr, textField.getText()).get
+        val points = eval_points(1, 40, 0.1, exp)
+        val newPlot = getJChart(textField.getText(), points)
+        plot = new ChartPanel(newPlot)
+        plotPanel.removeAll()
+        plotPanel.add(plot)
+        plotPanel.updateUI()
+      }
+    }
+
+    class derivateListener extends ActionListener{
+      override def actionPerformed(e: ActionEvent): Unit = {
+        println("derivateListener Button Clicked")
+      }
+    }
+
+    class simplifyListener extends ActionListener{
+      override def actionPerformed(e: ActionEvent): Unit = {
+        println("simplifyListener Button Clicked")
+      }
+    }
+
+
   }
 }
