@@ -1,7 +1,8 @@
 package GUI
 
-import Arithm.Plotter.{getJChart, getJFGraphPlotter}
-import Main.MainApp.{eq, eval_points, exp, expr, parseAll, step}
+import Arithm.Plotter.{getDoubleJChart, getJChart}
+import Arithm.Utils.{derivate, parseInput}
+import Main.MainApp.eval_points
 import org.jfree.chart.{ChartPanel, JFreeChart => JChart}
 
 import java.awt.Dimension
@@ -19,7 +20,7 @@ object UI{
     var plot = new ChartPanel(chart)
 
     val textField = new JTextField()
-    textPanel.add(new JLabel("f(x)= "))
+    textPanel.add(new JLabel("f(x) = "))
     textPanel.add(textField)
 
 
@@ -52,19 +53,38 @@ object UI{
     class plotListener extends ActionListener{
       override def actionPerformed(e: ActionEvent): Unit = {
         println("plotListener Button Clicked: ", textField.getText())
-        val exp = parseAll(expr, textField.getText()).get
-        val points = eval_points(1, 40, 0.1, exp)
-        val newPlot = getJChart(textField.getText(), points)
-        plot = new ChartPanel(newPlot)
-        plotPanel.removeAll()
-        plotPanel.add(plot)
-        plotPanel.updateUI()
+        val exp = parseInput(textField.getText())
+        val points = eval_points(-10, 10, 0.1, exp)
+        if (points == null) {
+          println("Math Error")
+        }
+        else {
+          val newPlot = getJChart(textField.getText(), points)
+          plot = new ChartPanel(newPlot)
+          plotPanel.removeAll()
+          plotPanel.add(plot)
+          plotPanel.updateUI()
+        }
       }
     }
 
     class derivateListener extends ActionListener{
       override def actionPerformed(e: ActionEvent): Unit = {
-        println("derivateListener Button Clicked")
+        println("derivateListener Button Clicked", textField.getText())
+        val exp = parseInput(textField.getText())
+        val points = eval_points(-10, 10, 0.1, exp)
+        val derivative = derivate(exp)
+        val deriPoints = eval_points(-10, 10, 0.1, derivative)
+        if (points == null || deriPoints == null){
+          println("Math Error")
+        }
+        else{
+          val newPlot = getDoubleJChart(textField.getText(), points, deriPoints)
+          plot = new ChartPanel(newPlot)
+          plotPanel.removeAll()
+          plotPanel.add(plot)
+          plotPanel.updateUI()
+        }
       }
     }
 

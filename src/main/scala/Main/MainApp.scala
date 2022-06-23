@@ -9,20 +9,19 @@ import GUI.UI.mainFrame
 import javax.swing.JFrame
 
 object MainApp extends App with ExprParser {
-  val eq = "1/x"
-  val exp = parseAll(expr, eq).get
-  val x = 2
-  val step = 0.1
-  val points = eval_points(1, 40, step, exp)
+  val eq = "0"
+  val exp = parseInput(eq)
+  print(exp)
+  val points = eval_points(0, 1, 1, exp)
+  //val x = 2
+  //val step = 0.1
   /*
   println("Equation: ", eq)
   println("After Parsing: ", exp)
   println("Result= ", eval(exp, x), "with x = ", x)
   println("ShowExpr: ", showExpr(exp))*/
   //println("Compute point: ", eval_points(0, 1, step, exp))
-  //val ui = new UI
-  //ui.visible = true
-  //getJFGraphPlotter(eq, points).gui()
-  mainFrame(getJChart(eq, points))
+
+  mainFrame(getJChart("0", points))
 }
 
