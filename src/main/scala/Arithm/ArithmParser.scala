@@ -111,7 +111,7 @@ trait ExprParser extends JavaTokenParsers {
 
   def derivate(t: Tree): Tree = t match{
     //Function Derivation
-    case Func("pow2", t1) => Mul(Num(2), derivate(t1))
+    case Func("pow2", t1) => Mul(Num(2),Mul(t1, derivate(t1)))
     case Func("pow3", t1) => Mul(Num(3), Mul(derivate(t1), Func("pow2", t1)))
     case Func("ln", t1) => Div(derivate(t1), t1)
     case Func("log", t1) => Div(derivate(t1), Mul(t1, Func("ln", Num(10))))
