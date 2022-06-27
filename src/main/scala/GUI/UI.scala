@@ -42,12 +42,15 @@ object UI{
     val xWindowTextField1 = new JTextField()
     xWindowTextField1.setPreferredSize(new Dimension( 80, 24 ))
     xWindowTextField1.setMaximumSize(textField.getPreferredSize)
+
     val xWindowTextField2 = new JTextField()
     xWindowTextField2.setPreferredSize(new Dimension( 80, 24 ))
     xWindowTextField2.setMaximumSize(textField.getPreferredSize)
+
     val xStep = new JTextField()
     xStep.setPreferredSize(new Dimension( 80, 24 ))
     xStep.setMaximumSize(textField.getPreferredSize)
+
     xWindowPanel.add(new JLabel("-Xlim = "))
     xWindowPanel.add(xWindowTextField1)
     xWindowPanel.add(new JLabel("+Xlim = "))
@@ -86,19 +89,16 @@ object UI{
 
         if (digitPattern.findFirstIn(XlimText1).exists(_.trim.nonEmpty)){
           Xlim1 = digitPattern.findFirstIn(XlimText1).get.toDouble
-          print(Xlim1)
         }
         if (digitPattern.findFirstIn(XlimText2).exists(_.trim.nonEmpty)){
           Xlim2 = digitPattern.findFirstIn(XlimText2).get.toDouble
-          print(Xlim2)
         }
         if (digitPattern.findFirstIn(stepText).exists(_.trim.nonEmpty)){
           step = digitPattern.findFirstIn(stepText).get.toDouble
-          print(step)
         }
 
         val points = eval_points(Xlim1, Xlim2, step, exp)
-        val newPlot = getJChart(textField.getText(), points)
+        val newPlot = getJChart("f(x) = " + textField.getText(), points)
         plot = new ChartPanel(newPlot)
         plotPanel.removeAll()
         plotPanel.add(plot)
@@ -116,15 +116,12 @@ object UI{
 
         if (digitPattern.findFirstIn(XlimText1).exists(_.trim.nonEmpty)){
           Xlim1 = digitPattern.findFirstIn(XlimText1).get.toDouble
-          print(Xlim1)
         }
         if (digitPattern.findFirstIn(XlimText2).exists(_.trim.nonEmpty)){
           Xlim2 = digitPattern.findFirstIn(XlimText2).get.toDouble
-          print(Xlim2)
         }
         if (digitPattern.findFirstIn(stepText).exists(_.trim.nonEmpty)){
           step = digitPattern.findFirstIn(stepText).get.toDouble
-          print(step)
         }
 
         val points = eval_points(Xlim1, Xlim2, step, exp)
