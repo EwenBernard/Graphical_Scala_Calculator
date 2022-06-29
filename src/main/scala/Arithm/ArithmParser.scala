@@ -32,7 +32,7 @@ trait ExprParser extends JavaTokenParsers {
     case Add(t1, t2) => eval(t1, x) + eval(t2, x)
     case Sub(t1, t2) => eval(t1, x) - eval(t2, x)
     case Div(t1, t2) => {
-      if (t1 == Num(0) || t2 == Num(0)){
+      if (t2 == Num(0)){
         val message = "MATHS ERROR: Can't divide by 0"
         JOptionPane.showMessageDialog(new JFrame(), message, "ERROR",
           JOptionPane.ERROR_MESSAGE)
@@ -130,6 +130,52 @@ trait ExprParser extends JavaTokenParsers {
     //Var & Num Derivation
     case Num(t1) => Num(0)
     case Variable(t) => Num(1)
+  }
+
+  def simplifyLoop(t: Tree): Tree = {
+    var tOld = t
+    var tNew = t
+    do{
+      tOld = tNew
+      tNew = simplify(tOld)
+    }while(tNew != tOld)
+    tNew
+  }
+
+  def simplify(t: Tree): Tree = t match {
+    case Add(Num(t1), Num(t2)) => Num(t1.toDouble + t2.toDouble)
+    case Add(Mul(Num(t1), Variable(t2)), Mul(Num(t3), Variable(t4))) => Mul(Num(t1 + t3), Variable(t2))
+
+    case Add(Num(0), t2) => simplify(t2)
+    case Add(t1, Num(0)) => simplify(t1)
+
+    case Sub(t1, Num(0)) => simplify(t1)
+    case Sub(t1, t2) if t1 == t2  => Num(0)
+
+    case Mul(Num(t1), Num(t2)) => Num(t1 * t2)
+    case Mul(Num(0), t2) => Num(0)
+    case Mul(t1, Num(0)) => Num(0)
+    case Mul(Num(1), t2) => simplify(t2)
+    case Mul(t1, Num(1)) => simplify(t1)
+    case Mul(Num(t1), Mul(Num(t2), t3)) => Mul(Num(t1 * t2), simplify(t3))
+    case Mul(Num(t1), Mul(t3, Num(t2))) => Mul(Num(t1 * t2), simplify(t3))
+    case Mul(Mul(t3, Num(t2)), Num(t1)) => Mul(Num(t1 * t2), simplify(t3))
+    case Mul(Mul(Num(t2), t3), Num(t1)) => Mul(Num(t1 * t2), simplify(t3))
+
+    case Add(Mul(t1, t2), Mul(t3, t4)) if t1 == t3 => Mul(t1, Add(t2, t4))
+    case Add(Mul(t1, t2), Mul(t3, t4)) if t1 == t4 => Mul(t1, Add(t2, t3))
+    case Add(Mul(t1, t2), Mul(t3, t4)) if t2 == t3 => Mul(t2, Add(t1, t4))
+    case Add(Mul(t1, t2), Mul(t3, t4)) if t2 == t4 => Mul(t2, Add(t1, t3))
+
+    case Div(Num(0), t2) => Num(0)
+    case Div(t1, Num(1)) => simplify(t1)
+
+    case Add(t1,t2) => Add(simplify(t1), simplify(t2))
+    case Sub(t1,t2) => Sub(simplify(t1), simplify(t2))
+    case Mul(t1,t2) => Mul(simplify(t1), simplify(t2))
+    case Div(t1,t2) => Div(simplify(t1), simplify(t2))
+
+    case _ => t
   }
 
   lazy val expr: Parser[Tree] = term ~ rep("[+-]".r ~ term) ^^ {

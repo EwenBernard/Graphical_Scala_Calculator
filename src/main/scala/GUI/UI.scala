@@ -1,7 +1,7 @@
 package GUI
 
 import Arithm.Plotter.{getDoubleJChart, getJChart}
-import Arithm.Utils.{derivate, parseInput, showExpr}
+import Arithm.Utils.{derivate, parseInput, showExpr, simplifyLoop, trimExpr}
 import Main.MainApp.eval_points
 import org.jfree.chart.{ChartPanel, JFreeChart => JChart}
 
@@ -125,9 +125,10 @@ object UI{
         }
 
         val points = eval_points(Xlim1, Xlim2, step, exp)
-        val derivative = derivate(exp)
+        val derivative = simplifyLoop(derivate(exp))
         val deriPoints = eval_points(Xlim1, Xlim2, step, derivative)
-        val newPlot = getDoubleJChart("f(x) = " + textField.getText() + "\n f'(x) = " + showExpr(derivative), points, deriPoints)
+        val newPlot = getDoubleJChart("f(x) = " + textField.getText() + "\n f'(x) = " + trimExpr(showExpr(derivative)), points, deriPoints)
+        textField.setText(trimExpr(showExpr(derivative)))
         plot = new ChartPanel(newPlot)
         plotPanel.removeAll()
         plotPanel.add(plot)
@@ -137,7 +138,7 @@ object UI{
 
     class simplifyListener extends ActionListener{
       override def actionPerformed(e: ActionEvent): Unit = {
-        println("simplifyListener Button Clicked")
+        textField.setText(trimExpr(showExpr(simplifyLoop(parseInput(textField.getText())))))
       }
     }
 
