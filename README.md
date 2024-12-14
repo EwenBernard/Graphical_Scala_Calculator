@@ -21,6 +21,6 @@ The **Graphical Function Calculator** is a powerful and user-friendly applicatio
 - To differentiate: `f'(x)`
 - To integrate: `\int f(x) dx`
 
-##Authors
+## Authors
 Sixtine Brisard & Ewen BERNARD
 
